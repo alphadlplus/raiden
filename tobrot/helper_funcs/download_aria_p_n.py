@@ -233,28 +233,22 @@ async def call_apropriate_function(
     if to_upload_file:
         if CUSTOM_FILE_NAME:
             if os.path.isfile(to_upload_file):
-                os.rename(to_upload_file,
-                          f"{CUSTOM_FILE_NAME}{to_upload_file}")
-                custom_name= Renamer_GD(f"{CUSTOM_FILE_NAME}{to_upload_file}")
-                os.rename(f"{CUSTOM_FILE_NAME}{to_upload_file}", custom_name)
+                custom_name= Renamer_GD(f"{to_upload_file}")
+                os.rename(f"{to_upload_file}", custom_name)
                 to_upload_file = f"{custom_name}"
             else:
                 for root, _, files in os.walk(to_upload_file):
                     LOGGER.info(files)
                     for org in files:
                         p_name = f"{root}/{org}"
-                        n_name = f"{root}/{CUSTOM_FILE_NAME}{org}"
-                        os.rename(p_name, n_name)
                         custom_name= Renamer_GD(f"{CUSTOM_FILE_NAME}{org}")
-                        p_name = f"{root}/{CUSTOM_FILE_NAME}{org}"
                         n_name = f"{root}/{custom_name}"
                         os.rename(p_name, n_name)
                 to_upload_file = to_upload_file
 
     if cstom_file_name:
-        os.rename(to_upload_file, cstom_file_name)
-        custom_name= Renamer_GD(f"{cstom_file_name}")
-        os.rename(cstom_file_name, custom_name)
+        custom_name= Renamer_GD(f"{to_upload_file}")
+        os.rename(to_upload_file, custom_name)
         to_upload_file = custom_name
     #
     response = {}
