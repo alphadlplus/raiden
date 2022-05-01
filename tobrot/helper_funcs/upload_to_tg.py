@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | gautamajay52
 
 import asyncio
 import logging
@@ -17,6 +16,7 @@ import requests
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from hurry.filesize import size
+from tobrot.helper_funcs.renamer import Renamer_TG, Renamer_GD
 from PIL import Image
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -299,6 +299,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
 async def upload_single_file(
     message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb
 ):
+    custom_name = Renamer_TG(os.path.basename(local_file_name))
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     local_file_name = str(Path(local_file_name).resolve())
     sent_message = None
@@ -332,6 +333,7 @@ async def upload_single_file(
         sent_message = await message.reply_document(
             document=local_file_name,
             thumb=thumb,
+            file_name=custom_name,
             caption=caption_str,
             parse_mode="html",
             disable_notification=True,
@@ -418,28 +420,24 @@ async def upload_single_file(
                 if edit_media and message.photo:
                     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                     sent_message = await message.edit_media(
-                        media=InputMediaVideo(
+                        media=InputMediaDocument(
                             media=local_file_name,
                             thumb=thumb,
                             caption=caption_str,
                             parse_mode="html",
-                            width=width,
-                            height=height,
-                            duration=duration,
-                            supports_streaming=True,
                         )
-                        # quote=True,
                     )
                 else:
-                    sent_message = await message.reply_video(
-                        video=local_file_name,
+                    sent_message = await message.reply_document(
+                        document=local_file_name,
                         caption=caption_str,
                         parse_mode="html",
-                        duration=duration,
-                        width=width,
-                        height=height,
-                        thumb=thumb,
-                        supports_streaming=True,
+                        # duration=duration,
+                        # width=width,
+                        # height=height,
+                        # thumb=thumb,
+                        # supports_streaming=True,
+                        file_name=custom_name,
                         disable_notification=True,
                         progress=prog.progress_for_pyrogram,
                         progress_args=(
@@ -530,6 +528,7 @@ async def upload_single_file(
                         thumb=thumb,
                         caption=caption_str,
                         parse_mode="html",
+                        file_name=custom_name,
                         disable_notification=True,
                         progress=prog.progress_for_pyrogram,
                         progress_args=(
