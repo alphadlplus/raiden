@@ -2,7 +2,7 @@ import  re
 
 def Renamer_TG(name):
     orgname = name.replace(".HEVC-", "").replace(".H264-","").replace(".x264-","").replace(".HEVC", "").replace(".H264","").replace(".x264","").replace("[","").replace(".MX]","").replace(".in","").replace(".ph","").replace(".li","").replace("HEVC", "").replace("H264","").replace("x264","")
-    orgname = orgname.replace(".AlphaDL", "")
+    orgname = orgname.replace(".AlphaDL", "").replace("(","").replace(")","").replace(" ",".")
     regex = re.search(r"(\..{3,4})$", orgname)
     orgname = orgname.replace(regex.group(1),".AlphaDL%s"%regex.group(1))
     if len(orgname) > 64:
@@ -17,3 +17,6 @@ def Renamer_GD(name):
     regex = re.search("(\..{3,4})$", orgname)
     orgname = orgname.replace(regex.group(1),".AlphaDL%s"%regex.group(1))
     return orgname
+
+
+print(Renamer_TG("Emmanuelle.1974.(1080p).BluRay.x264.AAC-[YTS.MX].mp4"))
