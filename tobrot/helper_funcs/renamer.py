@@ -17,6 +17,3 @@ def Renamer_GD(name):
     regex = re.search("(\..{3,4})$", orgname)
     orgname = orgname.replace(regex.group(1),".AlphaDL%s"%regex.group(1))
     return orgname
-
-
-print(Renamer_TG("Emmanuelle.1974.(1080p).BluRay.x264.AAC-[YTS.MX].mp4"))
