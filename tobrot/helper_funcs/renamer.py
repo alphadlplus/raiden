@@ -2,7 +2,7 @@ import  re
 
 def Renamer_TG(name):
     orgname = name.replace(".AlphaDL", "").replace("(","").replace(")","").replace(" ",".").replace("AD","",1)
-    orgname = orgname.replace(".HEVC-", "").replace(".H264-","").replace(".x264-",".").replace(".HEVC", "").replace(".H264","").replace(".x264","").replace("[","").replace(".MX]","").replace(".in","").replace(".ph","").replace(".li","").replace("HEVC", "").replace("H264","").replace("x264","")
+    orgname = orgname.replace("HEVC-", "").replace("H264-","").replace("x264-",".").replace(".HEVC", "").replace(".H264","").replace(".x264","").replace("[","").replace(".MX]","").replace(".in","").replace(".ph","").replace(".li","").replace("HEVC", "").replace("H264","").replace("x264","")
     regex = re.search(r"(\..{3,4})$", orgname)
     orgname = orgname.replace(regex.group(1),".AlphaDL%s"%regex.group(1))
     if len(orgname) > 64:
