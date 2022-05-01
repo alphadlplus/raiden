@@ -13,7 +13,7 @@ def Renamer_TG(name):
     return orgname
 
 def Renamer_GD(name):
-    orgname = name
+    orgname = name.replace(".AlphaDL", "").replace("AD","",1)
     regex = re.search("(\..{3,4})$", orgname)
     orgname = orgname.replace(regex.group(1),".AlphaDL%s"%regex.group(1))
     return orgname
