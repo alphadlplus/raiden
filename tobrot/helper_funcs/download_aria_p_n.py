@@ -241,7 +241,7 @@ async def call_apropriate_function(
                     LOGGER.info(files)
                     for org in files:
                         p_name = f"{root}/{org}"
-                        custom_name= Renamer_GD(f"{CUSTOM_FILE_NAME}{org}")
+                        custom_name= Renamer_GD(f"{org}")
                         n_name = f"{root}/{custom_name}"
                         os.rename(p_name, n_name)
                 to_upload_file = to_upload_file
