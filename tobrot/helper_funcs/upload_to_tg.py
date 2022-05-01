@@ -16,7 +16,7 @@ import requests
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from hurry.filesize import size
-from tobrot.helper_funcs.renamer import Renamer_TG, Renamer_GD
+from tobrot.helper_funcs.renamer import Renamer_TG
 from PIL import Image
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -88,53 +88,53 @@ async def upload_to_tg(
                 yt_thumb,
             )
     else:
-        if os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
-            LOGGER.info("TODO")
-            d_f_s = humanbytes(os.path.getsize(local_file_name))
-            i_m_s_g = await message.reply_text(
-                "Telegram does not support uploading this file.\n"
-                f"Detected File Size: {d_f_s} 😡\n"
-                "\n🤖 trying to split the files 🌝🌝🌚"
-            )
-            splitted_dir = await split_large_files(local_file_name)
-            totlaa_sleif = os.listdir(splitted_dir)
-            totlaa_sleif.sort()
-            number_of_files = len(totlaa_sleif)
-            LOGGER.info(totlaa_sleif)
-            ba_se_file_name = os.path.basename(local_file_name)
-            await i_m_s_g.edit_text(
-                f"Detected File Size: {d_f_s} 😡\n"
-                f"<code>{ba_se_file_name}</code> splitted into {number_of_files} files.\n"
-                "Trying to upload to Telegram, now ..."
-            )
-            for le_file in totlaa_sleif:
-                # recursion: will this FAIL somewhere?
-                await upload_to_tg(
-                    message,
-                    os.path.join(splitted_dir, le_file),
-                    from_user,
-                    dict_contatining_uploaded_files,
-                    client,
-                    edit_media,
-                    yt_thumb,
-                )
+        # if os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
+        #     LOGGER.info("TODO")
+        #     d_f_s = humanbytes(os.path.getsize(local_file_name))
+        #     i_m_s_g = await message.reply_text(
+        #         "Telegram does not support uploading this file.\n"
+        #         f"Detected File Size: {d_f_s} 😡\n"
+        #         "\n🤖 trying to split the files 🌝🌝🌚"
+        #     )
+        #     splitted_dir = await split_large_files(local_file_name)
+        #     totlaa_sleif = os.listdir(splitted_dir)
+        #     totlaa_sleif.sort()
+        #     number_of_files = len(totlaa_sleif)
+        #     LOGGER.info(totlaa_sleif)
+        #     ba_se_file_name = os.path.basename(local_file_name)
+        #     await i_m_s_g.edit_text(
+        #         f"Detected File Size: {d_f_s} 😡\n"
+        #         f"<code>{ba_se_file_name}</code> splitted into {number_of_files} files.\n"
+        #         "Trying to upload to Telegram, now ..."
+        #     )
+        #     for le_file in totlaa_sleif:
+        #         # recursion: will this FAIL somewhere?
+        #         await upload_to_tg(
+        #             message,
+        #             os.path.join(splitted_dir, le_file),
+        #             from_user,
+        #             dict_contatining_uploaded_files,
+        #             client,
+        #             edit_media,
+        #             yt_thumb,
+        #         )
+        # else:
+        sizze = os.path.getsize(local_file_name)
+        sent_message = await upload_single_file(
+            message,
+            local_file_name,
+            caption_str,
+            from_user,
+            client,
+            edit_media,
+            yt_thumb,
+        )
+        if sent_message is not None:
+            dict_contatining_uploaded_files[
+                os.path.basename(local_file_name)
+            ] = sent_message.message_id
         else:
-            sizze = os.path.getsize(local_file_name)
-            sent_message = await upload_single_file(
-                message,
-                local_file_name,
-                caption_str,
-                from_user,
-                client,
-                edit_media,
-                yt_thumb,
-            )
-            if sent_message is not None:
-                dict_contatining_uploaded_files[
-                    os.path.basename(local_file_name)
-                ] = sent_message.message_id
-            else:
-                return
+            return
     # await message.delete()
     return dict_contatining_uploaded_files
 
