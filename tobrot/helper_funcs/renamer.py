@@ -1,7 +1,9 @@
 import  re
 
 def Renamer_TG(name):
-    orgname = name.replace(".AlphaDL", "").replace("(","").replace(")","").replace(" ",".").replace("AD","",1).replace("(\.*\d{3,4}MB)","").replace("(\.*HQ)","")
+    orgname = name.replace(".AlphaDL", "").replace("(","").replace(")","").replace(" ",".").replace("AD","",1).replace(".AM]","",).replace(".LT]","",)
+    orgname = re.sub(r"(\.*\d{3,4}MB)","",orgname)
+    orgname = re.sub(r"(\.*HQ)","",orgname)
     orgname = orgname.replace("HEVC-", "").replace("H264-","").replace("x264-","").replace(".HEVC", "").replace(".H264","").replace(".x264","").replace("[","").replace(".MX]","").replace(".in","").replace(".ph","").replace(".li","").replace("HEVC", "").replace("H264","").replace("x264","")
     regex = re.search(r"(\..{3,4})$", orgname)
     if re.findall("(\..{3,4})$", orgname):
