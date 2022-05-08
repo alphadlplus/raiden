@@ -1,4 +1,3 @@
-from distutils.filelist import findall
 import  re
 
 def Renamer_TG(name):
@@ -32,14 +31,15 @@ def Renamer_TG(name):
                         orgname = orgname.replace(part, part[0].upper())
 
     if not re.findall(r"[Ss]\d{1,2}.?[Ee]\d{1,2}",orgname):
-        orgname = orgname.replace((re.search(r"(.*)\.\d{3,4}p",orgname)).group(1), (re.search(r"(.*)\.\d{3,4}p",orgname)).group(1).title())
-        if len(orgname) > 64:
-            parts = (re.search(r"(.*)\.\d{3,4}p",orgname)).group(1).split(".")
-            parts.reverse()
-            for part in parts:
-                if not re.findall(r"\d{4}",part):
-                    if len(orgname) > 64:
-                        orgname = orgname.replace(part, part[0].upper())
+        if re.findall(r"\.\d{3,4}p",orgname):
+            orgname = orgname.replace((re.search(r"(.*)\.\d{3,4}p",orgname)).group(1), (re.search(r"(.*)\.\d{3,4}p",orgname)).group(1).title())
+            if len(orgname) > 64:
+                parts = (re.search(r"(.*)\.\d{3,4}p",orgname)).group(1).split(".")
+                parts.reverse()
+                for part in parts:
+                    if not re.findall(r"\d{4}",part):
+                        if len(orgname) > 64:
+                            orgname = orgname.replace(part, part[0].upper())
     
     if len(orgname) > 64:
         orgname = orgname.replace("AlphaDL", "AD")
@@ -72,6 +72,7 @@ def Renamer_GD(name):
         orgname = orgname.replace((re.search(r"(.*)\.[Ss]\d{1,2}.?[Ee]\d{1,2}",orgname)).group(1), (re.search(r"(.*)\.[Ss]\d{1,2}.?[Ee]\d{1,2}",orgname)).group(1).title())
 
     if not re.findall(r"[Ss]\d{1,2}.?[Ee]\d{1,2}",orgname):
-        orgname = orgname.replace((re.search(r"(.*)\.\d{3,4}p",orgname)).group(1), (re.search(r"(.*)\.\d{3,4}p",orgname)).group(1).title())
+        if re.findall(r"\.\d{3,4}p",orgname):
+            orgname = orgname.replace((re.search(r"(.*)\.\d{3,4}p",orgname)).group(1), (re.search(r"(.*)\.\d{3,4}p",orgname)).group(1).title())
     
     return orgname
